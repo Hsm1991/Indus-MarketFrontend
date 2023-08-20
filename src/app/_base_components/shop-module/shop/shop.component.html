@@ -1,0 +1,58 @@
+
+<div class="card" style="width: 20rem;" *ngFor="let item of shopList | paginate:{itemsPerPage:itemsPerPage,currentPage :p}">
+  <!--  <div *ngFor="let item1 of item.medias" >-->
+
+    <div *ngIf="item.medias && item.medias.length>0" class="carousel-container">
+      <img
+           [src]="item.medias[indexImage[item.idShop]].imagenUrl" alt="Card image cap"
+             class="image-active">
+
+        <div *ngIf="indicators" class="carousel-dot-container">
+          <span *ngFor="let dot of item.medias;let i=index"
+                class="dot"
+          [ngClass]="{'active':indexImage[item.idShop]===i}"
+          (click)="selectImage(item.idShop,i)"
+          >
+          </span>
+        </div>
+        <button *ngIf="controls" class="btn-carousel btn-prev"
+                (click)="onPrevClick(item.idShop,item.medias.length)">
+          <i class="fas fa-arrow-circle-left icon-carousel icon-prev"></i>
+        </button>
+        <button *ngIf="controls" class="btn-carousel btn-next"
+                (click)="onNextClick(item.idShop,item.medias.length)">
+          <i class="fas fa-arrow-circle-right icon-carousel icon-next"></i>
+        </button>
+
+      </div>
+  <!--  </div>-->
+    <div class="card-body">
+      <h6 class="card-title"><strong>Name: </strong>{{item.name}}</h6>
+      <h6 class="card-text"><strong>E-mail: </strong>{{item.mail}}</h6>
+      <h6 class="card-text"><strong>Phone Number: </strong>{{item.phoneNumber}}</h6>
+      <h6 class="card-text"><strong>Address: </strong>{{item.adresse}}</h6>
+      <div class="rating" >
+        <h4><b>Shop Average Rating</b></h4>
+        <div class="rate">
+          <input type="radio"  id="{{item.idShop}}5" name="rate{{item.idShop}}" value="5"  disabled  [checked]="ranking[item.idShop] == 5" />
+          <label  title="text">5 stars</label>
+          <input type="radio" id="{{item.idShop}}4"  name="rate{{item.idShop}}" value="4" disabled [checked]="ranking[item.idShop] == 4" />
+          <label  title="text">4 stars</label>
+          <input type="radio" id="{{item.idShop}}3"  name="rate{{item.idShop}}" value="3"  disabled [checked]="ranking[item.idShop] == 3"/>
+          <label  title="text">3 stars</label>
+          <input type="radio" id="{{item.idShop}}2" name="rate{{item.idShop}}" value="2" disabled [checked]="ranking[item.idShop] == 2"/>
+          <label  title="text">2 stars</label>
+          <input type="radio" id="{{item.idShop}}1" name="rate{{item.idShop}}" value="1" disabled [checked]="ranking[item.idShop] == 1"/>
+          <label  title="text">1 star</label>
+        </div>
+      </div>
+
+
+      <button [routerLink]='["/shop",item.idShop]' class="btn btn-info btn-round  btn-lg btn-block">Visit Shop</button>
+
+    </div>
+  </div>
+  <div class="mt-8 py-5 flex justify-center items-center">
+    <pagination-controls (pageChange)="p = $event" previousLabel="" nextLabel="" flex=""></pagination-controls>
+  </div>
+

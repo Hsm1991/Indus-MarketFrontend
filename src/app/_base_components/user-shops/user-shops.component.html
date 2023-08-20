@@ -1,0 +1,93 @@
+<head>
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+
+  <!-- Material Kit CSS -->
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="/assets/css/now-ui-dashboard.css" rel="stylesheet" type="text/css"/>
+
+</head>
+
+
+
+<button class="button-cstm btn btn-info btn-round" type="button"
+        data-toggle="modal" data-target="#myModal">Add shop
+  <i class="now-ui-icons ui-1_simple-add"></i>
+</button>
+
+
+                  <table class="table">
+                    <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Mail</th>
+                      <th>Phone Number</th>
+                      <th>Adress</th>
+
+                      <th class="text-right">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let shop of shops | paginate: { itemsPerPage: pageSize, currentPage: currentPage, id: 'claim-pagination' }">
+                      <td>{{shop.name}}</td>
+                      <td>{{shop.mail}}</td>
+                      <td>{{shop.phoneNumber}}</td>
+                      <td>{{shop.adresse}}</td>
+
+
+                      <td class="td-actions text-right">
+                        <button (click)="getId(shop.idShop)" type="button" rel="tooltip" class="btn btn-round" data-toggle="modal" data-target="#myModal5">
+                          Delete shop
+                        </button>
+                        <br><br>
+                        <button (click)="openShopDetails(shop.idShop)" type="button" rel="tooltip" class="btn btn-warning btn-round" data-toggle="modal" data-target="#myModal2">
+                          Show shop
+                        </button><br><br>
+                        <button (click)="shoPdf(shop)" type="button" rel="tooltip" class="btn btn-info btn-round" data-toggle="modal" data-target="#myModal2">
+                          Shop report
+                        </button>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <div class="pagination pagination-success justify-content-end">
+                    <pagination-controls class="page-item" (pageChange)="onPageChange($event)" id="claim-pagination"></pagination-controls>
+                  </div>
+
+
+
+
+<div class="modal fade modal-mini modal-info" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center">
+        <div class="modal-profile">
+          <i class="now-ui-icons shopping_shop"></i>
+        </div>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this shop ? </p>
+      </div>
+      <div class="modal-footer">
+        <button  (click)="delete()" type="button" class="btn btn-link btn-neutral">Yes</button>
+        <button type="button" class="btn btn-link btn-neutral" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/src/assets/js/plugins/chartjs.min.js"></script>
+
+<script src="/src/assets/js/plugins/bootstrap-notify.js"></script>
+<script src="/src/assets/js/now-ui-dashboard.min.js?v=1.5.0" type="text/javascript"></script>
+<script src="/src/assets/demo/demo.js"></script>
+
+<script src="/src/assets/demo/jquery.sharrre.js"></script>

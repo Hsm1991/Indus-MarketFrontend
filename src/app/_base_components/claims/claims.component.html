@@ -1,0 +1,48 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<table class="table" xmlns:paginate="http://www.w3.org/1999/xhtml"
+       xmlns:itemsPerPage="http://www.w3.org/1999/xhtml" xmlns:currentPage="http://www.w3.org/1999/xhtml"
+       xmlns:id="http://www.w3.org/1999/xhtml">
+  <thead>
+  <tr>
+    <th scope="col">Title</th>
+    <th scope="col">Description</th>
+    <th scope="col">CreatedAt</th>
+    <th scope="col">ConsultAt</th>
+    <th scope="col">TypeClaim</th>
+    <th scope="col">statusClaims</th>
+    <th scope="col">Picture</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let claim of claims | paginate: { itemsPerPage: pageSize, currentPage: currentPage, id: 'claim-pagination' }">
+    <td>{{claim.title}}</td>
+    <td>{{claim.description}}</td>
+    <td>{{claim.CreatedAt |  date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+    <td>{{claim.ConsultAt |  date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+    <td>{{claim.typeClaim}}</td>
+    <td [ngClass]="{
+    'text-danger': claim.statusClaims === 'Rejected',
+    'text-success': claim.statusClaims === 'Resolved'
+  }">{{claim.statusClaims}}</td>
+    <td>
+      <div *ngFor="let media of claim.medias">
+        <img src="{{media.imagenUrl}}" style="width: 50px; height: 50px;"
+             (mouseover)="showText = true" (mouseout)="showText = false"
+             [ngStyle]="{'position': 'relative'}"(click)="onImageClick(media)">
+        <span *ngIf="showText" style="position: absolute; top: 0; left: 0; background-color: rgba(0, 0, 0, 0.5); color: #fff; padding: 5px; font-size: 14px;">Show</span>      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<div class="pagination-container">
+  <pagination-controls (pageChange)="onPageChange($event)" id="claim-pagination"></pagination-controls>
+</div>
+<div *ngIf="isImageModalOpen" class="image-modal">
+  <div class="modal-content">
+    <img [src]="selectedMedia?.imagenUrl" [style.width.px]="500" [style.height.px]="500" class="center-image">
+    <button (click)="closeImageModal()" class="close-button"><i class="fas fa-times"></i></button>
+  </div>
+
+
+</div>
+

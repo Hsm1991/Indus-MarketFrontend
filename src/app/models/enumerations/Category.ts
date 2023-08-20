@@ -1,0 +1,5 @@
+export enum Category{
+  MECHANIC='MECHANIC',
+  ELECTRIC='ELECTRIC',
+  HYDRAULIC='HYDRAULIC'
+}

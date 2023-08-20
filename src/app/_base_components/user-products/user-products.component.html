@@ -1,0 +1,199 @@
+<head>
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+
+  <!-- Material Kit CSS -->
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="/assets/css/now-ui-dashboard.css" rel="stylesheet" type="text/css"/>
+
+</head>
+
+
+
+
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Bar Code</th>
+    <th>Brand</th>
+    <th>Category</th>
+    <th>Price</th>
+    <th>Quantity</th>
+    <th>Images</th>
+    <th>Shop</th>
+    <th class="text-right">Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let product of products | paginate: { itemsPerPage: pageSize, currentPage: currentPage, id: 'claim-pagination' }">
+    <td>{{product.name}}</td>
+    <td><img [src]="product.barcodeImage.imagenUrl" ></td>
+    <td>{{product.brand}}</td>
+    <td>{{product.category}}</td>
+    <td>{{product.price}}</td>
+    <td>{{product.quantity}}</td>
+    <td class="align-middle"><div *ngIf="product.medias && product.medias.length>0" class="carousel-container justify-content-center">
+      <img
+        [src]="product.medias[indexImage[product.idProduct]].imagenUrl" alt="Card image cap"
+        class="image-active1">
+      <div *ngIf="indicators" class="carousel-dot-container">
+                         <span *ngFor="let dot of product.medias;let i=index"
+                               class="dot"
+                               [ngClass]="{'active':indexImage[product.idProduct]===i}"
+                               (click)="selectImage(product.idProduct,i)"
+                         >
+        </span>
+      </div>
+      <button *ngIf="controls" class="btn-carousel btn-prev"
+              (click)="onPrevClick(product.idProduct,product.medias.length)">
+        <i class="fas fa-arrow-circle-left icon-carousel icon-prev"></i>
+      </button>
+      <button *ngIf="controls" class="btn-carousel btn-next"
+              (click)="onNextClick(product.idProduct,product.medias.length)">
+        <i class="fas fa-arrow-circle-right icon-carousel icon-next"></i>
+      </button>
+    </div></td>
+    <td>{{product.shop.name}}</td>
+    <td class="td-actions text-right btn-group">
+      <div class="btn-group mr-2" role="group" aria-label="Update and Delete">
+        <button type="button" rel="tooltip" class="btn btn-info btn-round" data-target="#updateProduct555" data-toggle="modal" (click)="selectProductId(product.idProduct)" style="white-space: nowrap; margin-right: 5px;">
+          Update product
+        </button>
+        <button (click)="getId(product.idProduct)" type="button" rel="tooltip" class="btn btn-round" data-toggle="modal" data-target="#myModal1" style="white-space: nowrap;">
+          Delete product
+        </button>
+      </div>
+    </td>
+
+
+
+  </tr>
+  </tbody>
+</table>
+
+
+
+
+<div class="pagination pagination-success justify-content-end">
+  <pagination-controls class="page-item" (pageChange)="onPageChange($event)" id="claim-pagination"></pagination-controls>
+</div>
+
+
+<footer class="footer">
+
+</footer>
+
+
+<div class="modal fade modal-mini modal-info" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center">
+        <div class="modal-profile">
+          <i class="now-ui-icons design_app"></i>
+        </div>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want delete this product ? </p>
+      </div>
+      <div class="modal-footer">
+        <button  (click)="delete()" type="button" class="btn btn-link btn-neutral">Yes</button>
+        <button type="button" class="btn btn-link btn-neutral" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade modal-mini modal-warning" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center">
+        <div class="modal-profile">
+          <i class="now-ui-icons users_circle-08"></i>
+        </div>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to suspend this user ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-link btn-neutral">Yes</button>
+        <button type="button" class="btn btn-link btn-neutral" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<script src="/src/assets/js/plugins/chartjs.min.js"></script>
+
+<script src="/src/assets/js/plugins/bootstrap-notify.js"></script>
+<script src="/src/assets/js/now-ui-dashboard.min.js?v=1.5.0" type="text/javascript"></script>
+<script src="/src/assets/demo/demo.js"></script>
+
+<script src="/src/assets/demo/jquery.sharrre.js"></script>
+<!-- Update product -->
+<div class="modal fade" id="updateProduct555" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          <i class="now-ui-icons ui-1_simple-remove"></i>
+        </button>
+        <h4 class="title title-up">Update product</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="name"><strong>Product name:</strong></label>
+              <input type="text" class="form-control" [(ngModel)]="selectedProduct.name" name="name" id="name">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="brand"><strong>Product brand:</strong></label>
+              <input type="text" class="form-control" [(ngModel)]="selectedProduct.brand" name="brand" id="brand">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="description"><strong>Product description:</strong></label>
+            <textarea class="form-control" [(ngModel)]="selectedProduct.description" name="description" id="description"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="price"><strong>Product price:</strong></label>
+              <input type="text" class="form-control" [(ngModel)]="selectedProduct.price" name="price" id="price">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="category"><strong>Category:</strong></label>
+              <select class="form-control" id="category" [(ngModel)]="selectedProduct.category" name="category">
+                <option>MECHANIC</option>
+                <option>ELECTRIC</option>
+                <option>HYDRAULIC</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="image" class="form-label"><strong>Product images:</strong></label>
+            <input type="file" class="form-control-file mx-auto" id="image" (change)="onFileSelected($event)" multiple style="width: 50%">
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-round btn-info"  (click)="submitProduct(this.selectedProduct)">confirm</button>
+      </div>
+    </div>
+  </div>
+</div>

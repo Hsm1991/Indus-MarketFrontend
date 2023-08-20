@@ -1,0 +1,238 @@
+<app-nav2 xmlns="http://www.w3.org/1999/html"></app-nav2>
+<div><button  class="btn btn-link btn-info" (click)="open()" style="width: 400px;margin-top: 100px;margin-left: 700px;font-size: 1.2rem;"><b>Create report</b></button>
+</div>
+<div><button  class="btn btn-link btn-info"  style="width: 400px;margin-top: -85px;margin-left: 80px;font-size: 1.2rem;"
+              data-target="#updateProduct55" data-toggle="modal"  ><b>Add a product</b></button>
+  </div>
+
+<div class="modal-content" *ngIf="x" style="width: 1000px">
+  <div class="modal-header">
+
+    <button type="button" class="btn btn-round btn-info" data-dismiss="modal" aria-label="Close" (click)="open()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form class="form mx-auto" style="max-width: 600px;">
+          <div class="card-header text-center">
+            <h5>Create shop report</h5>
+          </div>
+          <div class="form-group row">
+            <div class="col">
+              <label for="startDate">Start date</label>
+              <input [(ngModel)]="date1" ngDefaultControl  type="datetime-local" class="form-control" ngModel name="startDate" id="startDate" placeholder="Start date">
+            </div>
+            <div class="col">
+              <label for="endDate">End date</label>
+              <input [(ngModel)]="date2" ngDefaultControl  type="datetime-local" class="form-control" ngModel name="endDate" id="endDate" placeholder="End date">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-info" (click)="confirme()"
+    >confirm</button>
+  </div>
+
+
+</div>
+
+
+<div class="card" style="width: 33rem; margin-top: 2% ; margin-left: 35% "  >
+
+<div *ngIf="shopDetail.medias && shopDetail.medias.length>0" class="carousel-container">
+  <img
+    [src]="shopDetail.medias[indexImage].imagenUrl" alt="Card image cap"
+    class="image-active" style="width: 483px ; height: 300px">
+
+  <div *ngIf="indicators" class="carousel-dot-container1">
+        <span *ngFor="let dot of shopDetail.medias;let i=index"
+              class="dot1"
+              [ngClass]="{'active':indexImage===i}"
+              (click)="selectImage(shopDetail.idShop,i)"
+        >
+        </span>
+  </div>
+  <button *ngIf="controls" class="btn-carousel btn-prev"
+          (click)="onPrevClick(shopDetail.idShop,shopDetail.medias.length)">
+    <i class="fas fa-arrow-circle-left icon-carousel icon-prev"></i>
+  </button>
+  <button *ngIf="controls" class="btn-carousel btn-next1"
+          (click)="onNextClick(shopDetail.idShop,shopDetail.medias.length)" >
+    <i class="fas fa-arrow-circle-right icon-carousel icon-next"></i>
+  </button>
+
+</div>
+<!--  </div>-->
+<div class="card-body">
+  <h4 class="card-title"><strong>Name: </strong>{{shopDetail.name}}</h4>
+  <h4 class="card-text"><strong>E-mail: </strong>{{shopDetail.mail}}</h4>
+  <h4 class="card-text"><strong>Phone Number: </strong>{{shopDetail.phoneNumber}}</h4>
+  <h4 class="card-text"><strong>Address: </strong>{{shopDetail.adresse}}</h4>
+  <div class="rating" >
+    <h4><b>Shop Average Rating</b></h4>
+    <div class="rate">
+      <input type="radio" id="star5" name="rate" value="5" disabled [checked]="ff == 5" />
+      <label for="star5" title="text">5 stars</label>
+      <input type="radio" id="star4" name="rate" value="4" disabled [checked]="ff == 4" />
+      <label for="star4" title="text">4 stars</label>
+      <input type="radio" id="star3" name="rate" value="3" disabled [checked]="ff == 3"/>
+      <label for="star3" title="text">3 stars</label>
+      <input type="radio" id="star2" name="rate" value="2" disabled [checked]="ff == 2"/>
+      <label for="star2" title="text">2 stars</label>
+      <input type="radio" id="star1" name="rate" value="1" disabled [checked]="ff == 1"/>
+      <label for="star1" title="text">1 star</label>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<div>
+
+  <div class="form-group d-flex justify-content-center">
+    <h3><b>Search products</b></h3>
+  </div>
+  <div class="form-group d-flex justify-content-center">
+    <input type="text" class="form-control" [(ngModel)]="searchTerm" ngDefaultControl (keyup)="search($event)" placeholder="Search products">
+  </div>
+
+
+<div class="card" style="width: 25rem; " [(ngModel)]="products" ngDefaultControl  *ngFor="let item of products| paginate:{itemsPerPage:itemsPerPage,currentPage :p}" >
+
+
+  <div *ngIf="item.medias && item.medias.length>0" class="carousel-container">
+    <img
+      [src]="item.medias[indexImageP[item.idProduct]].imagenUrl" alt="Card image cap"
+      class="image-active" >
+
+    <div *ngIf="indicators" class="carousel-dot-container">
+        <span *ngFor="let dot of item.medias;let i=index"
+              class="dot"
+              [ngClass]="{'active':indexImageP[item.idProduct]===i}"
+              (click)="selectImageP(item.idProduct,i)"
+        >
+        </span>
+    </div>
+    <button *ngIf="controls" class="btn-carousel btn-prev"
+            (click)="onPrevClickP(item.idProduct,item.medias.length)">
+      <i class="fas fa-arrow-circle-left icon-carousel icon-prev"></i>
+    </button>
+    <button *ngIf="controls" class="btn-carousel btn-next"
+            (click)="onNextClickP(item.idProduct,item.medias.length)">
+      <i class="fas fa-arrow-circle-right icon-carousel icon-next"></i>
+    </button>
+
+  </div>
+  <div class="card-body">
+    <h6 class="card-title"><strong>Name: </strong>{{item.name}}</h6>
+    <h6 class="card-text"><strong>Reference: </strong>{{item.reference}}</h6>
+    <h6 class="card-text"><strong>Quantity: </strong>{{item.stock.currentQuantity}}</h6>
+    <h6 class="card-text"><strong>Price: </strong>{{item.price}}</h6>
+    <h6 class="card-text"><strong>Brand: </strong>{{item.brand}}</h6>
+    <h6 class="card-text"><strong>Status: </strong>  <span [hidden]="item.status=== 'IN STOCK'" class="badge badge-warning">In stock</span>
+      <span [hidden]="item.status!=='IN STOCK'" class="badge badge-neutral">Out of stock</span></h6>
+    <h6 class="card-text"><strong>Category: </strong>{{item.category}}</h6>
+    <h6 class="card-text"><strong>Barcode Image: </strong></h6>
+    <img style="height: 80px" src="{{item.barcodeImage.imagenUrl}}">
+  </div>
+<p>    <button (click)="showdiv2(item.idProduct)" type="button" class="btn btn-info"
+    >Update quantity</button>
+    <button (click)="showdiv3(item.idProduct)" type="button" class="btn btn-info"
+    >Applicate discount</button>
+  </p>
+</div>
+</div>
+<div style="width: 500px ; position: center" *ngIf="divShow2" >
+  <div class="form-group">
+
+    <div class="form-group mx-sm-3" >
+      <label for="qte" class="sr-only">max</label>
+      <input type="qte" class="form-control" id="qte" placeholder="Quantity to add" [(ngModel)]="qte" ngDefaultControl >
+    </div>
+  </div>
+  <div>
+    <button style="width: 500px;margin-left: 260px" (click)="updateQte();hideDiv2()" class="btn btn-info btn-round  btn-lg btn-block">Update product quantity </button>
+  </div>
+</div>
+
+<div style="width: 500px ; position: center" *ngIf="divShow3" >
+  <div class="form-group">
+
+    <div class="form-group mx-sm-3" >
+      <label for="qte" class="sr-only">max</label>
+      <input type="qte" class="form-control" id="discount" placeholder="Discount value" [(ngModel)]="discount" ngDefaultControl >
+    </div>
+  </div>
+  <div>
+    <button style="width: 500px;margin-left: 260px" (click)="addDisc();hideDiv3()" class="btn btn-info btn-round  btn-lg btn-block">Add discount </button>
+  </div>
+</div>
+
+
+
+
+
+<div class="mt-8 py-5 flex justify-center items-center">
+  <pagination-controls (pageChange)="p = $event" previousLabel="" nextLabel="" flex=""></pagination-controls>
+</div>
+<div class="modal fade" id="updateProduct55" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          <i class="now-ui-icons ui-1_simple-remove"></i>
+        </button>
+        <h4 class="title title-up">update product</h4>
+      </div>
+      <div class="modal-body">
+
+
+
+        <form class="text-center">
+          <div class="form-group">
+            <label for="name"><strong>Product name:</strong></label>
+            <input type="text" [(ngModel)]="product.name" name="name" id="name" class="form-control mx-auto" style="width: 50%">
+          </div>
+          <div class="form-group">
+            <label for="description"><strong>Product description:</strong></label>
+            <input type="text" [(ngModel)]="product.description" name="description" id="description" class="form-control mx-auto" style="width: 50%">
+          </div>
+          <div class="form-row justify-content-center">
+            <div class="form-group col-md-6">
+              <label for="price"><strong>Product price:</strong></label>
+              <input type="text" [(ngModel)]="product.price" name="price" id="price" class="form-control mx-auto" style="width: 50%">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="brand"><strong>Product brand:</strong></label>
+              <input type="text" [(ngModel)]="product.brand" name="brand" id="brand" class="form-control mx-auto" style="width: 50%">
+            </div>
+            <label for="category" class="col-md-2"><strong>Category:</strong></label>
+            <select class="form-control col-md-4 mx-auto" id="category" [(ngModel)]="product.category" name="category" style="width: 50%">
+              <option>MECHANIC</option>
+              <option>ELECTRIC</option>
+              <option>HYDRAULIC</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="quantity"><strong>Product quantity:</strong></label>
+            <input type="number" [(ngModel)]="product.quantity" name="quantity" id="quantity" class="form-control mx-auto" style="width: 50%">
+          </div>
+          <div class="mb-3">
+            <label for="image" class="form-label"><strong>Product images:</strong></label>
+            <input type="file" class="form-control-file mx-auto" id="image" (change)="onFileSelected($event)" multiple style="width: 50%">
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-round btn-info" data-dismiss="modal" (click)="submitProduct(this.product)">confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
